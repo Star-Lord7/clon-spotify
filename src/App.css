@@ -1,0 +1,75 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+body{
+  background: linear-gradient(135deg, #5ae45a, #afc6a9);
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+.card {
+  padding: 2em;
+}
+.read-the-docs {
+  color: #888;
+}
+
+/*Navar*/
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #282c34;
+  padding: 1rem;
+}
+
+/* Imagenes */
+.section-cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.card{
+  margin-top: 1rem;
+  width: 12rem;
+  padding: 2px;
+}
+.card:hover{
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+.card .card-body{
+  padding: 1rem;
+  /*Degradado*/
+  background: linear-gradient(135deg, #d99b9b, #f0f0f0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
