@@ -1,27 +1,21 @@
-import { useState } from 'react'
 import './App.css'
 import Login from './components/Login'
 import Registro from './components/Registro'
 import Home from './components/Home'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Nav from './components/Nav'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
-  const [vistaActual, setVistaActual] = useState("login");
 
   return (
-    <>
-      {vistaActual === "login" && (
-        <Login cambiarVista={setVistaActual} />
-      )}
-      {vistaActual === "registro" && (
-        <Registro cambiarVista={setVistaActual} />
-      )}
-      {vistaActual === "home" && (
-        <Home cambiarVista={setVistaActual} />
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login/>}/>
+        <Route path='/registro' element={<Registro/>}/>
+        <Route path='/home' element={<Home/>}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

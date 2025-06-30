@@ -14,7 +14,7 @@ import image11 from '../img/11.png'
 import image12 from '../img/12.png'
 import Card from './Card'
 
-export default function Home({cambiarVista}) {
+export default function Home(){
   return (
     <div>
         <Nav />
@@ -32,9 +32,9 @@ export default function Home({cambiarVista}) {
             <Card image={image11} cantante={"Rabito"} titulo={"Sinceridad"}/>
             <Card image={image12} cantante={"Marcos Vidal"} titulo={"Mi Regalo"}/>
         </section>
-        <section className='mt-5'>
-          <button onClick={() => cambiarVista("login")}>Cerrar Sesión</button>
-        </section>
+        <footer className="footer">
+            <p>© 2025 Spotify Clone. All rights reserved - Samuel Azucena</p>
+        </footer>
     </div>
   )
 }

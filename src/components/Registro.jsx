@@ -1,22 +1,47 @@
+import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { dbStore } from '../firebase/appConfig';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import logo from '../img/musica.png';
 
-export default function Registro({ cambiarVista }) {
+export default function Registro(){
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  //Creando una constante para navegar entre rutas
+  const navigate = useNavigate();
+
+  //Método para guardar el usuario en la base de datos
+  const saveUser = async data => {
     console.log(data);
-    cambiarVista("login");
+    try {
+      await addDoc(collection(dbStore, "users"), data)
+      Swal.fire({
+        title: "Registro Exitoso",
+        //text: "The book has been successfully registered.",
+        icon: "success",
+        confirmButtonText: "OK",
+        draggable: true
+      });
+
+      //Redireccionamos a la ruta de inicio
+      navigate("/");
+    } catch (error) {
+      console.error("Error al registrar el usuario:", error);
+    }
   };
 
   return (
     <div className="container mt-4">
+      <img src={logo} alt="" />
       <h1>Registro</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(saveUser)}>
         <div className="mb-3">
           <label>Correo Electrónico</label>
           <input
@@ -57,13 +82,16 @@ export default function Registro({ cambiarVista }) {
           Registrarme
         </button>
         <br />
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => cambiarVista("login")}
-        >
-          ¿Ya tienes cuenta? Inicia Sesión
-        </button>
+        <Link to="/" className="btn btn-link"
+          style={{
+            backgroundColor: "#e166fc",
+            color: "#000000",
+            textDecoration: "none",
+            marginTop: "30px",
+            fontSize: "15px",
+            fontWeight: "600"
+          }}
+        >¿Ya tienes cuenta? Inicia Sesión</Link>
       </form>
     </div>
   );
