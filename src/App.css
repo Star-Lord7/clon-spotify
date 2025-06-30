@@ -102,7 +102,7 @@ body{
 }
 
 /* Button */
-.container .btn {
+.container .btn { 
   background-color: #ff1109;
   color: #fff;
   border: none;
