@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { dbStore } from '../firebase/appConfig';
+import { dbStore, auth } from '../firebase/appConfig';
 import logo from '../img/musica.png';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(){
   const {
@@ -19,31 +20,28 @@ export default function Login(){
   //Método para validar el usuario si existe en la base de datos de firestore
   const validarUser = async (data) => {
     try {
-      // Creamos una constante para la colección de usuarios
-      const usersRef = collection(dbStore, "users");
-      //Creamos otra constante para la consulta
-      const q = query(usersRef, where("correo", "==", data.correo), where("password", "==", data.password));
-      //Y esta nueva constante para obtener los documentos que cumplen con la consulta
-      const snapshot = await getDocs(q);
+      // Iniciar sesión con correo y contraseña
+      const userCredential = await signInWithEmailAndPassword(auth, data.correo, data.password);
 
-      //Luego con un IF verificamos si el snapshot tiene documentos
-      if (!snapshot.empty) {
-        //alert("Inicio de sesión exitoso");
-        // Redireccionar (si usas react-router-dom)
-        navigate("/home");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Correo o contraseña incorrectos"
-          //footer: '<a href="#">Why do I have this issue?</a>'
-        });
-      }
+      Swal.fire({
+        title: "Inicio de sesión exitoso",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+      });
+      
+      navigate("/home");
+
     } catch (error) {
-      console.error("Error al validar usuario:", error);
-      alert("Ocurrió un error al validar el usuario");
+      console.error("Error al iniciar sesión:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Correo o contraseña incorrectos"
+      });
     }
   };
+
 
   return (
     <div className="container mt-4">

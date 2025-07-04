@@ -2,10 +2,12 @@ import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { dbStore } from '../firebase/appConfig';
+import { dbStore, auth } from '../firebase/appConfig';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import logo from '../img/musica.png';
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Registro(){
   const {
@@ -21,21 +23,29 @@ export default function Registro(){
   const saveUser = async data => {
     console.log(data);
     try {
-      await addDoc(collection(dbStore, "users"), data)
+      // Crear usuario en Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, data.correo, data.password);
+      const user = userCredential.user;
+
       Swal.fire({
         title: "Registro Exitoso",
-        //text: "The book has been successfully registered.",
         icon: "success",
         confirmButtonText: "OK",
         draggable: true
       });
 
-      //Redireccionamos a la ruta de inicio
       navigate("/");
+
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
+      Swal.fire({
+        title: "Error",
+        text: error.message,
+        icon: "error"
+      });
     }
   };
+
 
   return (
     <div className="container mt-4">
